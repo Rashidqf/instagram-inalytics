@@ -31,11 +31,12 @@ export default async function handler(req, res) {
 
     const { access_token, user_id } = response.data;
     console.log("response", access_token);
-    // const userProfileResponse = await axios.get(
-    //   `https://graph.instagram.com/me?fields=id,username&access_token=${access_token}`
-    // );
+    const userProfileResponse = await axios.get(
+      `https://graph.instagram.com/me?fields=id,username&access_token=${access_token}`
+    );
 
-    // const userData = userProfileResponse.data;
+    const userData = userProfileResponse.data;
+    console.log(userData);
 
     return res.status(200).json({ success: "success" });
   } catch (error) {
