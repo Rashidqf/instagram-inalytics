@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
     // Save user data to the database
     const user = await User.findOneAndUpdate(
-      { instagramId: id },
+      { instagramId: user_id },
       { username, accessToken: access_token },
       { new: true, upsert: true }
     );
