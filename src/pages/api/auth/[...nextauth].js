@@ -11,7 +11,6 @@ export default NextAuth({
       name: "Credentials",
       credentials: {},
       authorize: async (credentials) => {
-        // Perform database lookup to verify user credentials
         const user = await User.findOne({ instagramId: credentials.user_id });
         if (user) {
           return Promise.resolve(user);

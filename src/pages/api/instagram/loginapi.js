@@ -2,10 +2,10 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
-import { getSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 
 export default async function handler(req, res) {
-  dbConnect();
+  await dbConnect();
   console.log("req.body", req.body);
 
   if (req.method !== "POST") {
@@ -52,11 +52,14 @@ export default async function handler(req, res) {
     // Get session
     const session = await getSession({ req });
 
-    if (!session) {
-      // Create session for the user
-      // Here you can manually create a session or redirect to the sign-in page
-      // Example: await signIn("credentials", { redirect: false, user_id });
+    if (session) {
+      // Redirect to home page if session exists
+      res.redirect("/");
+      return;
     }
+
+    // Create session for the user if no session exists
+    await signIn("credentials", { redirect: false, user_id });
 
     return res.status(200).json({ success: "success" });
   } catch (error) {
