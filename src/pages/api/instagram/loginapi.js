@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
-  console.log("Received request");
+  console.log("req.body", req.body);
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -10,7 +10,6 @@ export default async function handler(req, res) {
 
   const { code } = req.body;
   console.log("Received code:", code);
-
 
   try {
     console.log("Sending request to Instagram API");
@@ -22,7 +21,7 @@ export default async function handler(req, res) {
         grant_type: "authorization_code",
         redirect_uri: "https://plugged.app/auth/signin",
         code: code,
-      }),
+      }).toString(),
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

@@ -2,18 +2,26 @@
 import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function SignIn() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [code, setCode] = useState("");
+  // const [code, setCode] = useState("");
   const [userData, setUserData] = useState();
+  const { code } = router.query;
+
+  console.log(code);
+
+  // Do something with the code parameter
+  // console.log("Code:", code);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const query = new URLSearchParams(window.location.search);
-      setCode(query.get("code"));
+      // setCode(query.get("code"));
     }
   }, []);
 
@@ -75,8 +83,8 @@ export default function SignIn() {
     }
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(code);
+  }, [router.query.code]);
 
   useEffect(() => {
     fetchInstagramData();
