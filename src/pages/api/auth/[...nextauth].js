@@ -1,57 +1,42 @@
-// import NextAuth from "next-auth";
-// import CredentialsProvider from "next-auth/providers/credentials";
-// import bcrypt from "bcryptjs";
-// import User from "./../../../model/User";
-// import dbConnect from "./../../../utils/dbconnect";
-
-// export default NextAuth({
-//   providers: [
-//     CredentialsProvider({
-//       async authorize(credentials) {
-//         await dbConnect();
-//         console.log("Credentials:", credentials);
-
-//         const user = await User.findOne({ email: credentials.email });
-//         console.log("User:", user);
-
-//         if (
-//           !user ||
-//           !(await bcrypt.compare(credentials.password, user.password))
-//         ) {
-//           throw new Error("Invalid email or password");
-//         }
-
-//         return { email: user.email, name: user.name, role: user.role };
-//       },
-//     }),
-//   ],
-//   callbacks: {
-//     async session({ session, token }) {
-//       session.user.role = token.role;
-//       return session;
-//     },
-//     async jwt({ token, user }) {
-//       if (user) token.role = user.role;
-//       return token;
-//     },
-//   },
-//   pages: {
-//     signIn: "/auth/signin",
-//   },
-// });
-
-
+// pages/api/auth/[...nextauth].ts
 import NextAuth from "next-auth";
-import InstagramProvider from "next-auth/providers/instagram";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import User from "@/model/instagramModel";
+import dbConnect from "@/utils/dbconnect";
 
 export default NextAuth({
   providers: [
-    InstagramProvider({
-      clientId: "1207756877256989",
-      clientSecret: "94a64b4bf3e52a7c76f0acf3ed1ff84b"
-    })
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {},
+      authorize: async (credentials) => {
+        // Perform database lookup to verify user credentials
+        const user = await User.findOne({ instagramId: credentials.user_id });
+        if (user) {
+          return Promise.resolve(user);
+        } else {
+          return Promise.resolve(null);
+        }
+      },
+    }),
   ],
-  // Add any additional configurations here
+  adapter: MongoDBAdapter(dbConnect),
+  session: {
+    jwt: true,
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.instagramId = user.instagramId;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.instagramId = token.instagramId;
+      return session;
+    },
+  },
 });
-
-
