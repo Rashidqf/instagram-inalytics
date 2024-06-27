@@ -1,16 +1,28 @@
 // pages/auth/signin.js
+import axios from "axios";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [code, setCode] = useState("");
+  const [userData, setUserData] = useState();
 
-  const handleLogin = async() => {
-    window.location.href = "https://api.instagram.com/oauth/authorize?client_id=1175082610605703&redirect_uri=https://instagram-analytics-app-32ki.vercel.app/&scope=user_profile,user_media&response_type=code";
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const query = new URLSearchParams(window.location.search);
+      setCode(query.get("code"));
+    }
+  }, []);
+
+  const handleLogin = async () => {
+    window.location.href =
+      "https://api.instagram.com/oauth/authorize?client_id=1175082610605703&redirect_uri=https://plugged.app/auth/signin&scope=user_profile,user_media&response_type=code";
     // try {
-    //   const response = await axios.post('/api/instagram/instagramapi'); 
+    //   const response = await axios.post('/api/instagram/instagramapi');
     //   // setData(response.data);
     //   console.log(response);
     // } catch (error) {
@@ -20,7 +32,54 @@ export default function SignIn() {
     //   setLoading(false);
     //   console.log("test");
     // }
-};
+  };
+
+  const fetchInstagramData = async () => {
+    setLoading(true);
+    setError(null);
+  };
+
+  //   try {
+  //     if(code){
+  //     const response = await axios.post("/api/instagram/basicapi");
+  //     setData(response.data);
+  //     console.log(response);
+  //   }
+  //   } catch (error) {
+  //     setError("Failed to fetch data");
+  //     console.error("Error fetching data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(
+        "/api/instagram/loginapi",
+        { code },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = response.data;
+      setUserData(data.user);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setError(error.response ? error.response.data : error.message);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchInstagramData();
+  }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -39,12 +98,12 @@ export default function SignIn() {
     <>
       <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="insta-default">
-          <a
+          <button
             onClick={handleLogin}
             class="insta-default bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"
           >
             Log in with Instagram <i class="fa fa-instagram ml-2"></i>
-          </a>
+          </button>
         </div>
       </div>
       {/* <button onClick={handleLogin}>Login with Instagram</button> */}
