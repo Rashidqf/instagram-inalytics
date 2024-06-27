@@ -11,9 +11,6 @@ export default async function handler(req, res) {
   const { code } = req.body;
   console.log("Received code:", code);
 
-  if (!code) {
-    return res.status(400).json({ error: "Authorization code is required" });
-  }
 
   try {
     console.log("Sending request to Instagram API");

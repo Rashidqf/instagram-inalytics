@@ -10,13 +10,14 @@ export default function SignIn() {
   const [error, setError] = useState("");
   const [code, setCode] = useState("");
   const [userData, setUserData] = useState();
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const query = new URLSearchParams(window.location.search);
       setCode(query.get("code"));
     }
   }, []);
+
+  console.log(code);
 
   const handleLogin = async () => {
     window.location.href =
