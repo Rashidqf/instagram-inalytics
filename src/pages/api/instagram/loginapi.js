@@ -1,7 +1,10 @@
 // pages/api/instagram.js
+import User from "@/model/instagramModel";
+import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
 
 export default async function handler(req, res) {
+  dbConnect();
   console.log("req.body", req.body);
 
   if (req.method !== "POST") {
@@ -36,6 +39,13 @@ export default async function handler(req, res) {
     );
 
     const userData = userProfileResponse.data;
+
+    // Save user data to the database
+    const user = await User.findOneAndUpdate(
+      { instagramId: id },
+      { username, accessToken: access_token },
+      { new: true, upsert: true }
+    );
     console.log(userData);
 
     return res.status(200).json({ success: "success" });
