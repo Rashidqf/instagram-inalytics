@@ -2,7 +2,7 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
-import { getSession, signIn } from "next-auth/react";
+import { getServerSession, signIn } from "next-auth/react";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -50,10 +50,9 @@ export default async function handler(req, res) {
     console.log(userData);
 
     // Get session
-    const session = await getSession({ req });
+    const session = await getServerSession({ req });
 
     if (session) {
-      // Redirect to home page if session exists
       res.redirect("/");
       return;
     }
