@@ -9,7 +9,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { code } = router.query;
-  console.log(data, session, status);
+  console.log(session, status);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -68,7 +68,7 @@ export default function SignIn() {
     }
   }, [code]);
 
-  console.log(data, session, status);
+  console.log(session, status);
 
   return (
     <>
