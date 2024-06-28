@@ -8,6 +8,7 @@ export default function SignIn() {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [myData, setmyData] = useState("");
   const { code } = router.query;
   console.log(session, status);
 
@@ -37,9 +38,10 @@ export default function SignIn() {
             },
           }
         );
+        setmyData(response);
 
         const data = response;
-        console.log("response", data);
+        console.log("response", response);
 
         // After fetching user data, sign in with credentials provider
         // const result = await signIn("credentials", {
@@ -62,6 +64,7 @@ export default function SignIn() {
       setLoading(false);
     }
   };
+  console.log("my data ", myData);
   console.log("error", error);
 
   useEffect(() => {
