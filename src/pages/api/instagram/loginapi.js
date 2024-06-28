@@ -48,6 +48,13 @@ export default async function handler(req, res) {
     );
     console.log(userData);
 
+      const session = await getServerSession({ req });
+      if (session) {
+        res.redirect("/");
+        return;
+      }
+
+
     // Create session for the user
     await signIn("credentials", { redirect: false, user_id });
 
