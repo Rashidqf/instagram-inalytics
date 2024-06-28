@@ -1,7 +1,7 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/server";
 import { signIn } from "next-auth/react";
 
 export default async function handler(req, res) {
