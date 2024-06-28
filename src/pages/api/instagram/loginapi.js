@@ -1,7 +1,7 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
-import { getServerSession } from "next-auth/server";
+import { getServerSession } from "next-auth";
 import { signIn } from "next-auth/react";
 
 export default async function handler(req, res) {
@@ -49,14 +49,14 @@ export default async function handler(req, res) {
     );
     console.log(userData);
 
-    const session = await getServerSession({ req });
-    if (session) {
-      res.redirect("/");
-      return;
-    }
+    // const session = await getServerSession({ req });
+    // if (session) {
+    //   res.redirect("/");
+    //   return;
+    // }
 
-    // Create session for the user
-    await signIn("credentials", { redirect: false, user_id });
+    // // Create session for the user
+    // await signIn("credentials", { redirect: false, user_id });
 
     return res.status(200).json({ success: userData });
   } catch (error) {
