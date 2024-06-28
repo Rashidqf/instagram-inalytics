@@ -10,6 +10,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { code } = router.query;
+  console.log(status, session);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -50,6 +51,8 @@ export default function SignIn() {
   const handleLogin = () => {
     signIn("instagram");
   };
+
+  console.log(status, session);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
