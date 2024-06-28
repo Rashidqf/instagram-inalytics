@@ -61,6 +61,7 @@ export default function SignIn() {
       setLoading(false);
     }
   };
+  console.log(error);
 
   useEffect(() => {
     if (code) {
