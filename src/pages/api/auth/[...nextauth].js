@@ -1,9 +1,9 @@
-// pages/api/auth/[...nextauth].ts
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
+import clientPromise from "@/utils/mongodb";
 
 export default NextAuth({
   providers: [
@@ -11,6 +11,7 @@ export default NextAuth({
       name: "Credentials",
       credentials: {},
       authorize: async (credentials) => {
+        await dbConnect();
         const user = await User.findOne({ instagramId: credentials.user_id });
         if (user) {
           return Promise.resolve(user);
@@ -20,7 +21,7 @@ export default NextAuth({
       },
     }),
   ],
-  adapter: MongoDBAdapter(dbConnect),
+  adapter: MongoDBAdapter(clientPromise),
   session: {
     jwt: true,
   },

@@ -1,4 +1,3 @@
-// pages/api/instagram.js
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
@@ -49,15 +48,7 @@ export default async function handler(req, res) {
     );
     console.log(userData);
 
-    // Get session
-    const session = await getServerSession({ req });
-
-    if (session) {
-      res.redirect("/");
-      return;
-    }
-
-    // Create session for the user if no session exists
+    // Create session for the user
     await signIn("credentials", { redirect: false, user_id });
 
     return res.status(200).json({ success: "success" });

@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 const MONGODB_URI =
   "mongodb+srv://rashidkg01:%40Rash0025@cluster0.28ebfiz.mongodb.net/trading?retryWrites=true&w=majority";
 
-
 if (!MONGODB_URI) {
   throw new Error(
     "Please define the MONGODB_URI environment variable inside .env.local"
@@ -23,14 +22,9 @@ async function dbConnect() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      .then((mongoose) => {
-        return mongoose;
-      });
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
+      return mongoose;
+    });
   }
 
   cached.conn = await cached.promise;
