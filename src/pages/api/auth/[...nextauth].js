@@ -19,7 +19,9 @@ export default NextAuth({
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
-  secret: "process.env.NEXTAUTH_SECRET",
+  session: {
+    jwt: true,
+  },
   callbacks: {
     async session({ session, token, user }) {
       session.user.id = user.id;
