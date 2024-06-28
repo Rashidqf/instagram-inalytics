@@ -38,22 +38,22 @@ export default function SignIn() {
           }
         );
 
-        const data = response.data;
+        const data = response;
         console.log(data);
 
         // After fetching user data, sign in with credentials provider
-        const result = await signIn("credentials", {
-          redirect: false,
-          user_id: data.user.instagramId,
-        });
-        console.log("result", result);
+        // const result = await signIn("credentials", {
+        //   redirect: false,
+        //   user_id: data.user.instagramId,
+        // });
+        // console.log("result", result);
 
-        if (result?.error) {
-          setError(result.error);
-        } else {
-          console.log("Sign-in successful, redirecting to home page");
-          router.push("/");
-        }
+        // if (result?.error) {
+        //   setError(result.error);
+        // } else {
+        //   console.log("Sign-in successful, redirecting to home page");
+        //   router.push("/");
+        // }
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
