@@ -4,39 +4,18 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import clientPromise from "@/utils/mongodb";
+import InstagramProvider from "next-auth/providers/instagram";
 
 export default NextAuth({
   providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {},
-      authorize: async (credentials) => {
-        await dbConnect();
-        const user = await User.findOne({ instagramId: credentials.user_id });
-        if (user) {
-          return Promise.resolve(user);
-        } else {
-          return Promise.resolve(null);
-        }
+    InstagramProvider({
+      clientId: "1175082610605703",
+      clientSecret: "9aa6ff4793844085505fc4338b09c7f2",
+      authorization: {
+        params: {
+          redirect_uri: "https://plugged.app/auth/signin",
+        },
       },
     }),
   ],
-  adapter: MongoDBAdapter(clientPromise),
-  session: {
-    jwt: true,
-  },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.instagramId = user.instagramId;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      session.user.id = token.id;
-      session.user.instagramId = token.instagramId;
-      return session;
-    },
-  },
 });

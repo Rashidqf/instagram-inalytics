@@ -65,6 +65,8 @@ export default function SignIn() {
 
   return (
     <>
+      <button onClick={() => signIn("instagram")}>Sign in</button>
+
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="insta-default">
           <button

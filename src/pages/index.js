@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import axios from "axios";
+import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import LoginPage from "@/component/buttonLogin";
 import { getFacebookProfile } from "./api/instagram/test";
@@ -88,7 +89,7 @@ export default function Home() {
           <pre>{JSON.stringify(profile, null, 2)}</pre>
         </div>
       )} */}
-
+      <button onClick={() => signIn("instagram")}>Sign in</button>
       <div class="mt-10 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="flex justify-end px-4 pt-4">
           <button
