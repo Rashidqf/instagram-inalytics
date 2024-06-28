@@ -41,7 +41,6 @@ export default function SignIn() {
           }
         );
         setmyData(response.data);
-        signIn();
 
         const data = response.data;
         console.log("response", response);
