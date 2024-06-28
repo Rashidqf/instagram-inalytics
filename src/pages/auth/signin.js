@@ -1,16 +1,25 @@
 import axios from "axios";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function SignIn() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [userData, setUserData] = useState();
   const { code } = router.query;
+
+  useEffect(() => {
+    if (session) {
+      console.log("Session data:", session);
+      // Redirect to home page if session exists
+      router.push("/");
+    }
+  }, [session]);
 
   const handleLogin = async () => {
     window.location.href =
@@ -52,26 +61,36 @@ export default function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     const result = await signIn("credentials", {
-      redirect: true,
+      redirect: false,
       email,
       password,
     });
 
     if (result.error) {
       setError(result.error);
+    } else {
+      router.push("/");
     }
   };
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="insta-default">
-          <button
-            onClick={handleLogin}
-            className="insta-default bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-          >
-            Log in with Instagram <i className="fa fa-instagram ml-2"></i>
-          </button>
+          {!session ? (
+            <button
+              onClick={handleLogin}
+              className="insta-default bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"
+            >
+              Log in with Instagram <i className="fa fa-instagram ml-2"></i>
+            </button>
+          ) : (
+            <p>Signed in as {session.user.email}</p>
+          )}
         </div>
       </div>
     </>
