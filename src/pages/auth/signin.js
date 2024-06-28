@@ -39,7 +39,7 @@ export default function SignIn() {
         );
 
         const data = response;
-        console.log(data);
+        console.log("response", data);
 
         // After fetching user data, sign in with credentials provider
         // const result = await signIn("credentials", {
@@ -62,7 +62,7 @@ export default function SignIn() {
       setLoading(false);
     }
   };
-  console.log(error);
+  console.log("error", error);
 
   useEffect(() => {
     if (code) {
