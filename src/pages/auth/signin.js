@@ -18,14 +18,16 @@ export default function SignIn() {
     }
   }, [status]);
 
-  const handleLogin = async () => {
-    window.location.href =
-      "https://api.instagram.com/oauth/authorize?client_id=1175082610605703&redirect_uri=https://plugged.app/auth/signin&scope=user_profile,user_media&response_type=code";
+  const handleLogin = () => {
+    if (typeof window !== "undefined") {
+      window.location.href =
+        "https://api.instagram.com/oauth/authorize?client_id=1175082610605703&redirect_uri=https://plugged.app/auth/signin&scope=user_profile,user_media&response_type=code";
+    }
   };
 
   const fetchData = async (code) => {
     setLoading(true);
-    setError(null);
+    setError("");
 
     try {
       if (code) {
@@ -38,9 +40,9 @@ export default function SignIn() {
             },
           }
         );
-        setmyData(response);
+        setmyData(response.data);
 
-        const data = response;
+        const data = response.data;
         console.log("response", response);
 
         // After fetching user data, sign in with credentials provider
@@ -64,8 +66,6 @@ export default function SignIn() {
       setLoading(false);
     }
   };
-  console.log("my data ", myData);
-  console.log("error", error);
 
   useEffect(() => {
     if (code) {
@@ -73,7 +73,8 @@ export default function SignIn() {
     }
   }, [code]);
 
-  console.log(session, status);
+  console.log("my data ", myData);
+  console.log("error", error);
 
   return (
     <>
