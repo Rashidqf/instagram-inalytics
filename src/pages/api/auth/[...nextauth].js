@@ -6,7 +6,7 @@ import dbConnect from "@/utils/dbconnect";
 import clientPromise from "@/utils/mongodb";
 import InstagramProvider from "next-auth/providers/instagram";
 
-const options = NextAuth({
+export default NextAuth({
   providers: [
     InstagramProvider({
       clientId: "1175082610605703",
@@ -17,7 +17,52 @@ const options = NextAuth({
         },
       },
     }),
-  ],
-});
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        instagramId: { label: "Instagram ID", type: "text" },
+      },
+      authorize: async (credentials) => {
+        await dbConnect();
 
-export default (req, res) => NextAuth(req, res, options);
+        const user = await User.findOne({
+          instagramId: credentials.instagramId,
+        });
+
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
+      },
+    }),
+  ],
+  adapter: MongoDBAdapter(clientPromise),
+  session: {
+    jwt: true,
+  },
+  callbacks: {
+    async jwt(token, user) {
+      if (user) {
+        token.id = user.id;
+        token.instagramId = user.instagramId;
+        token.accessToken = user.accessToken;
+        token.username = user.username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.instagramId = token.instagramId;
+      session.user.accessToken = token.accessToken;
+      session.user.username = token.username;
+      return session;
+    },
+    async signIn({ user, account, profile, email, credentials }) {
+      return true;
+    },
+  },
+  pages: {
+    signIn: "/auth/signin",
+  },
+});
