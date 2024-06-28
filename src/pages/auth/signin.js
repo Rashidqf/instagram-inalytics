@@ -46,11 +46,12 @@ export default function SignIn() {
           redirect: false,
           user_id: data.user.instagramId,
         });
+        console.log("result", result);
 
         if (result?.error) {
           setError(result.error);
         } else {
-          // Redirect to home page on successful login
+          console.log("Sign-in successful, redirecting to home page");
           router.push("/");
         }
       }
