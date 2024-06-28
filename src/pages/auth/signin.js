@@ -41,23 +41,11 @@ export default function SignIn() {
           }
         );
         setmyData(response.data);
+        signIn();
 
         const data = response.data;
         console.log("response", response);
 
-        // After fetching user data, sign in with credentials provider
-        // const result = await signIn("credentials", {
-        //   redirect: false,
-        //   user_id: data.user.instagramId,
-        // });
-        // console.log("result", result);
-
-        // if (result?.error) {
-        //   setError(result.error);
-        // } else {
-        //   console.log("Sign-in successful, redirecting to home page");
-        //   router.push("/");
-        // }
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
