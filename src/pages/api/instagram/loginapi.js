@@ -2,7 +2,6 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
-import { getServerSession, signIn } from "next-auth/react";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -48,17 +47,6 @@ export default async function handler(req, res) {
       { new: true, upsert: true }
     );
     console.log(userData);
-
-    // // Get session
-    // const session = await getServerSession({ req });
-
-    // if (session) {
-    //   res.redirect("/");
-    //   return;
-    // }
-
-    // // Create session for the user if no session exists
-    // await signIn("credentials", { redirect: false, user_id });
 
     return res.status(200).json({ success: "success" });
   } catch (error) {

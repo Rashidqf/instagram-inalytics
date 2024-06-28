@@ -18,4 +18,15 @@ export default NextAuth({
       },
     }),
   ],
+  adapter: MongoDBAdapter(clientPromise),
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async session({ session, token, user }) {
+      session.user.id = user.id;
+      return session;
+    },
+    async signIn({ user, account, profile, email, credentials }) {
+      return true;
+    },
+  },
 });
