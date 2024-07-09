@@ -7,9 +7,9 @@ export default async function handler(req, res) {
   await dbConnect();
   console.log("req.body", req.body);
 
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  // if (req.method !== "POST") {
+  //   return res.status(405).json({ error: "Method not allowed" });
+  // }
 
   const { code } = req.body;
   console.log("Received code:", code);
