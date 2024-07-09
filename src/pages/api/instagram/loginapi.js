@@ -7,14 +7,15 @@ export default async function handler(req, res) {
   await dbConnect();
   console.log("req.body", req.body);
 
-  // if (req.method !== "POST") {
-  //   return res.status(405).json({ error: "Method not allowed" });
-  // }
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
   const { code } = req.body;
   console.log("Received code:", code);
 
   try {
+    // Fetch the short-lived access token
     console.log("Sending request to Instagram API");
     const response = await axios.post(
       "https://api.instagram.com/oauth/access_token",
@@ -33,23 +34,30 @@ export default async function handler(req, res) {
     );
 
     const { access_token, user_id } = response.data;
-    console.log("response", access_token, user_id);
-    // const userProfileResponse = await axios.get(
-    //   `https://graph.facebook.com/v20.0/me?fields=id%2Cname&access_token=${access_token}`
-    // );
-    // console.log(userProfileResponse, user_id);
+    console.log("Short-lived token:", access_token, user_id);
 
-    // const userData = userProfileResponse.data;
-    console.log(access_token);
+    // Exchange the short-lived token for a long-lived token
+    const longLivedTokenResponse = await axios.get(
+      `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=9aa6ff4793844085505fc4338b09c7f2&access_token=${access_token}`
+    );
+
+    const { access_token: longLivedAccessToken, expires_in } =
+      longLivedTokenResponse.data;
+    console.log(
+      "Long-lived token:",
+      longLivedAccessToken,
+      "Expires in:",
+      expires_in
+    );
 
     // Save user data to the database
-    // const user = await User.findOneAndUpdate(
-    //   { instagramId: user_id },
-    //   { username: userData.username, accessToken: access_token },
-    //   { new: true, upsert: true }
-    // );
+    const user = await User.findOneAndUpdate(
+      { instagramId: user_id },
+      { accessToken: longLivedAccessToken, updatedAt: new Date() },
+      { new: true, upsert: true }
+    );
 
-    return res.status(200).json({ success: access_token });
+    return res.status(200).json({ success: longLivedAccessToken });
   } catch (error) {
     console.error(
       "Error fetching access token:",
