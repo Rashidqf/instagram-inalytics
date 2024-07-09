@@ -34,9 +34,14 @@ export default async function handler(req, res) {
 
     const { access_token, user_id } = response.data;
     console.log("response", access_token, user_id);
-    const userProfileResponse = await axios.get(
-      `https://graph.facebook.com/v20.0/me?fields=id%2Cname&access_token=${access_token}`
-    );
+    try {
+      const userProfileResponse = await axios.get(
+        `https://graph.facebook.com/v20.0/me?fields=id%2Cname&access_token=${access_token}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    
     console.log(userProfileResponse, user_id);
 
     const userData = userProfileResponse.data;
