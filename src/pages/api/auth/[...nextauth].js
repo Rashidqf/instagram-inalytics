@@ -9,8 +9,8 @@ import InstagramProvider from "next-auth/providers/instagram";
 export default NextAuth({
   providers: [
     InstagramProvider({
-      clientId: "7254741227960137",
-      clientSecret: "c81f02470641dd3a7b300aab336b91e4",
+      clientId: "1175082610605703",
+      clientSecret: "9aa6ff4793844085505fc4338b09c7f2",
       authorization: {
         params: {
           redirect_uri: "https://plugged.app/auth/signin",
