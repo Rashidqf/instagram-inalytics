@@ -35,13 +35,20 @@ export default async function handler(req, res) {
     const { access_token, user_id } = response.data;
     console.log("response", access_token, user_id);
     try {
-      const userProfileResponse = await axios.get(
-        `https://graph.facebook.com/v20.0/me?fields=id%2Cname&access_token=${access_token}`
-      );
+      const response = await axios.get("https://graph.facebook.com/v20.0/me", {
+        params: {
+          fields: "id,name",
+          access_token: access_token,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching Instagram user data:", error);
     }
-    
+
     console.log(userProfileResponse, user_id);
 
     const userData = userProfileResponse.data;
