@@ -33,11 +33,11 @@ export default async function handler(req, res) {
     );
 
     const { access_token, user_id } = response.data;
-    console.log("response", access_token);
+    console.log("response", access_token, user_id);
     const userProfileResponse = await axios.get(
       `https://graph.instagram.com/me?fields=id,name&access_token=${access_token}`
     );
-    console.log(userProfileResponse);
+    console.log(userProfileResponse, user_id);
 
     const userData = userProfileResponse.data;
     console.log(userData);
