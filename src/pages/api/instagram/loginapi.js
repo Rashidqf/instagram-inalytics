@@ -4,6 +4,8 @@ import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
 
 export default async function handler(req, res) {
+
+  console.log("It working Now");
   await dbConnect();
   console.log("req.body", req.body);
 
