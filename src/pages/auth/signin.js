@@ -41,7 +41,7 @@ export default function SignIn() {
       );
 
       if (response.data.success) {
-        router.push("/admin"); // Redirect to admin page on success
+        // router.push("/admin"); // Redirect to admin page on success
       } else {
         setError("Failed to authenticate with Instagram");
       }
