@@ -20,8 +20,8 @@ export default async function handler(req, res) {
     const response = await axios.post(
       "https://api.instagram.com/oauth/access_token",
       new URLSearchParams({
-        client_id: "501364205622562",
-        client_secret: "483907d0684e7239ccd9cbc99f6617df",
+        client_id: "1175082610605703",
+        client_secret: "9aa6ff4793844085505fc4338b09c7f2",
         grant_type: "authorization_code",
         redirect_uri: "https://plugged.app/auth/signin",
         code: code,
