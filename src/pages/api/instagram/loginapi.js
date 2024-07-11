@@ -47,7 +47,7 @@ export default async function handler(req, res) {
       { username: userData.name, accessToken: access_token },
       { new: true, upsert: true }
     );
-    console.log(userData);
+    console.log(userData.name, userData.user_id, userData.access_token);
 
     return res.status(200).json({ success: user });
   } catch (error) {
