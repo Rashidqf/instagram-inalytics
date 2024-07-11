@@ -40,14 +40,14 @@ export default async function handler(req, res) {
     );
 
     const userData = userProfileResponse.data;
-
+    console.log(userData.name, userData.user_id, userData.access_token);
     // Save user data to the database
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
       { username: userData.name, accessToken: access_token },
       { new: true, upsert: true }
     );
-    console.log(userData.name, userData.user_id, userData.access_token);
+    console.log(userData.name, userData.user_id, userData.access_token, user);
 
     return res.status(200).json({ success: user });
   } catch (error) {
