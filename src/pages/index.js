@@ -55,9 +55,11 @@ export default function Home() {
 
   useEffect(() => {
     const accessToken = cookies.get("accessToken");
+    console.log(accessToken);
 
     if (!accessToken) {
-      router.push("/auth/signin"); // Redirect to login page if accessToken cookie is not present
+      // router.push("/auth/signin");
+      console.log(accessToken);
     }
   }, []);
 
