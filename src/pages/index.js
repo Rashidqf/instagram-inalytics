@@ -1,24 +1,18 @@
+// pages/index.js
 "use client";
 
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import LoginPage from "@/component/buttonLogin";
+import axios from "axios";
 import Cookies from "universal-cookie";
-import { getFacebookProfile } from "./api/instagram/test";
-import Link from "next/link";
-const inter = Inter({ subsets: ["latin"] });
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  const session = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [profile, setProfile] = useState(null);
   const cookies = new Cookies();
 
   const fetchInstagramData = async () => {
@@ -42,18 +36,18 @@ export default function Home() {
     console.log("Access Token", accessToken);
 
     if (!accessToken) {
-      // router.push("/auth/signin");
-      console.log(accessToken);
+      router.push("/auth/signin");
+    } else {
+      fetchInstagramData();
     }
-  }, []);
-
-  useEffect(() => {
-    fetchInstagramData();
   }, []);
 
   return (
     <>
       <h1>Rashid</h1>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {data && <p>{JSON.stringify(data)}</p>}
     </>
   );
 }
