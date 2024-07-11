@@ -35,23 +35,24 @@ export default async function handler(req, res) {
 
     const { access_token, user_id } = response.data;
     console.log("response", access_token);
-    try {
-      const userProfileResponse = await axios.get(
-        `https://graph.facebook.com/v20.0/${user_id}?access_token=${access_token}`
-      );
-      const userData = userProfileResponse.data;
-      console.log(userData.name, userData.user_id, userData.access_token);
-      const user = await User.findOneAndUpdate(
-        { instagramId: user_id },
-        { username: userData.name, accessToken: access_token },
-        { new: true, upsert: true }
-      );
-      console.log(userData.name, userData.user_id, userData.access_token, user);
-    } catch (error) {
-      console.log(error.message);
-    }
+    const user = await User.findOneAndUpdate(
+      { instagramId: user_id },
+      { username: userData.name, accessToken: access_token },
+      { new: true, upsert: true }
+    );
+    // try {
+    //   const userProfileResponse = await axios.get(
+    //     `https://graph.facebook.com/v20.0/${user_id}?access_token=${access_token}`
+    //   );
+    //   const userData = userProfileResponse.data;
+    //   console.log(userData.name, userData.user_id, userData.access_token);
 
-    return res.status(200).json({ success: response });
+    //   console.log(userData.name, userData.user_id, userData.access_token, user);
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
+
+    return res.status(200).json({ success: "true" });
   } catch (error) {
     console.error(
       "Error fetching access token:",
