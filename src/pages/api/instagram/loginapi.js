@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     console.log("response", access_token);
     try {
       const userProfileResponse = await axios.get(
-        `https://graph.instagram.com/${user_id}?fields=id,name&access_token=${access_token}`
+        `https://graph.facebook.com/v20.0/${user_id}&access_token=${access_token}`
       );
       const userData = userProfileResponse.data;
       console.log(userData.name, userData.user_id, userData.access_token);
