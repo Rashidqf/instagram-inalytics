@@ -13,6 +13,8 @@ export default function SignIn() {
 
   useEffect(() => {
     if (status === "authenticated") {
+
+      console.log(status, );
       router.push("/admin"); // Redirect to admin page if authenticated
     }
   }, [status, router]);
