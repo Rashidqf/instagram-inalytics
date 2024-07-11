@@ -19,8 +19,8 @@ export default async function handler(req, res) {
     const response = await axios.post(
       "https://api.instagram.com/oauth/access_token",
       new URLSearchParams({
-        client_id: "501364205622562",
-        client_secret: "483907d0684e7239ccd9cbc99f6617df",
+        client_id: "1710773616328237",
+        client_secret: "2c05da4b6b113a72cf75084634bd5fe0",
         grant_type: "authorization_code",
         redirect_uri: "https://plugged.app/auth/signin",
         code: code,
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     const { access_token, user_id } = response.data;
     console.log("response", access_token);
     const userProfileResponse = await axios.get(
-      `https://graph.instagram.com/me?fields=id,username&access_token=${access_token}`
+      `https://graph.instagram.com/me?fields=id,name&access_token=${access_token}`
     );
 
     const userData = userProfileResponse.data;
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     // Save user data to the database
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
-      { username: userData.username, accessToken: access_token },
+      { username: userData.name, accessToken: access_token },
       { new: true, upsert: true }
     );
     console.log(userData);
