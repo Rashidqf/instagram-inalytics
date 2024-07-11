@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import axios from "axios";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import LoginPage from "@/component/buttonLogin";
 import { getFacebookProfile } from "./api/instagram/test";
@@ -11,11 +11,12 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const session = useSession();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [profile, setProfile] = useState(null);
-
+  console.log(session);
   const handleLogin = async () => {
     window.location.href =
       "https://api.instagram.com/oauth/authorize?client_id=1175082610605703&redirect_uri=https://www.opdagverden.dk/log-ind&scope=user_profile,user_media&response_type=code";
