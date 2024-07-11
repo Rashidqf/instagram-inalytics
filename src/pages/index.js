@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import { useRouter } from "next/router";
 import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const session = useSession();
+  const router = useRouter();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
