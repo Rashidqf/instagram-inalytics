@@ -57,7 +57,7 @@ export default function Home() {
     const accessToken = cookies.get("accessToken");
 
     if (!accessToken) {
-      router.push("/auth/login"); // Redirect to login page if accessToken cookie is not present
+      router.push("/auth/signin"); // Redirect to login page if accessToken cookie is not present
     }
   }, []);
 
