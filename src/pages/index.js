@@ -6,6 +6,7 @@ import axios from "axios";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import LoginPage from "@/component/buttonLogin";
+import Cookies from "universal-cookie";
 import { getFacebookProfile } from "./api/instagram/test";
 import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
@@ -17,6 +18,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [profile, setProfile] = useState(null);
   console.log(session);
+  const cookies = new Cookies();
   const handleLogin = async () => {
     window.location.href =
       "https://api.instagram.com/oauth/authorize?client_id=1175082610605703&redirect_uri=https://www.opdagverden.dk/log-ind&scope=user_profile,user_media&response_type=code";
@@ -48,6 +50,14 @@ export default function Home() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const accessToken = cookies.get("accessToken");
+
+    if (!accessToken) {
+      router.push("/auth/login"); // Redirect to login page if accessToken cookie is not present
+    }
+  }, []);
 
   useEffect(() => {
     fetchInstagramData();

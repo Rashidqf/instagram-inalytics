@@ -14,14 +14,6 @@ export default function SignIn() {
   const cookies = new Cookies();
 
   useEffect(() => {
-    const accessToken = cookies.get("accessToken");
-
-    if (!accessToken) {
-      router.push("/login"); // Redirect to login page if accessToken cookie is not present
-    }
-  }, []);
-
-  useEffect(() => {
     if (status === "authenticated") {
       console.log(status);
       router.push("/admin"); // Redirect to admin page if authenticated
