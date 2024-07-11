@@ -3,6 +3,7 @@ import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Cookies from "universal-cookie";
 
 export default function SignIn() {
   const router = useRouter();
@@ -10,11 +11,19 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { code } = router.query;
+  const cookies = new Cookies();
+
+  useEffect(() => {
+    const accessToken = cookies.get("accessToken");
+
+    if (!accessToken) {
+      router.push("/login"); // Redirect to login page if accessToken cookie is not present
+    }
+  }, []);
 
   useEffect(() => {
     if (status === "authenticated") {
-
-      console.log(status, );
+      console.log(status);
       router.push("/admin"); // Redirect to admin page if authenticated
     }
   }, [status, router]);
@@ -41,7 +50,7 @@ export default function SignIn() {
       );
 
       if (response.data.success) {
-        // router.push("/admin"); // Redirect to admin page on success
+        router.push("/admin"); // Redirect to admin page on success
       } else {
         setError("Failed to authenticate with Instagram");
       }

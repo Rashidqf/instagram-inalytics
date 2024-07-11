@@ -37,6 +37,14 @@ export default async function handler(req, res) {
       { new: true, upsert: true }
     );
 
+    // Set a cookie with 30-day expiration
+    res.setHeader(
+      "Set-Cookie",
+      `accessToken=${access_token}; Max-Age=${
+        30 * 24 * 60 * 60
+      }; Path=/; HttpOnly; Secure; SameSite=Strict`
+    );
+
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error(
