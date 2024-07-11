@@ -7,7 +7,6 @@ export default async function handler(req, res) {
 
   console.log("It working Now");
   await dbConnect();
-  console.log("req.body", req.body);
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -21,8 +20,8 @@ export default async function handler(req, res) {
     const response = await axios.post(
       "https://api.instagram.com/oauth/access_token",
       new URLSearchParams({
-        client_id: "1710773616328237",
-        client_secret: "2c05da4b6b113a72cf75084634bd5fe0",
+        client_id: "501364205622562",
+        client_secret: "483907d0684e7239ccd9cbc99f6617df",
         grant_type: "authorization_code",
         redirect_uri: "https://plugged.app/auth/signin",
         code: code,
