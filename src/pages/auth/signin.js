@@ -10,11 +10,10 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { code } = router.query;
-  console.log(status, session);
 
   useEffect(() => {
     if (status === "authenticated") {
-      router.push("/");
+      router.push("/admin"); // Redirect to admin page if authenticated
     }
   }, [status, router]);
 
@@ -39,7 +38,11 @@ export default function SignIn() {
         }
       );
 
-      console.log("response", response.data);
+      if (response.data.success) {
+        router.push("/admin"); // Redirect to admin page on success
+      } else {
+        setError("Failed to authenticate with Instagram");
+      }
     } catch (error) {
       console.error("Error fetching user data:", error);
       setError(error.response ? error.response.data : error.message);
@@ -52,8 +55,6 @@ export default function SignIn() {
     signIn("instagram");
   };
 
-  console.log(status, session);
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div>
@@ -63,6 +64,8 @@ export default function SignIn() {
         >
           Log in with Instagram
         </button>
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
       </div>
     </div>
   );

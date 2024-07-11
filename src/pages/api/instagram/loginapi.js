@@ -1,11 +1,9 @@
-// pages/api/instagram.js
+// pages/api/instagram/loginapi.js
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
 
 export default async function handler(req, res) {
-
-  console.log("It working Now");
   await dbConnect();
 
   if (req.method !== "POST") {
@@ -13,10 +11,8 @@ export default async function handler(req, res) {
   }
 
   const { code } = req.body;
-  console.log("Received code:", code);
 
   try {
-    console.log("Sending request to Instagram API");
     const response = await axios.post(
       "https://api.instagram.com/oauth/access_token",
       new URLSearchParams({
@@ -34,25 +30,14 @@ export default async function handler(req, res) {
     );
 
     const { access_token, user_id } = response.data;
-    console.log("response", access_token);
+
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
-      { username: userData.name, accessToken: access_token },
+      { accessToken: access_token },
       { new: true, upsert: true }
     );
-    // try {
-    //   const userProfileResponse = await axios.get(
-    //     `https://graph.facebook.com/v20.0/${user_id}?access_token=${access_token}`
-    //   );
-    //   const userData = userProfileResponse.data;
-    //   console.log(userData.name, userData.user_id, userData.access_token);
 
-    //   console.log(userData.name, userData.user_id, userData.access_token, user);
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
-
-    return res.status(200).json({ success: "true" });
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error(
       "Error fetching access token:",

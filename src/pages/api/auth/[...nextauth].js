@@ -1,10 +1,10 @@
 import NextAuth from "next-auth";
+import InstagramProvider from "next-auth/providers/instagram";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import clientPromise from "@/utils/mongodb";
-import InstagramProvider from "next-auth/providers/instagram";
 
 export default NextAuth({
   providers: [
@@ -42,7 +42,7 @@ export default NextAuth({
     jwt: true,
   },
   callbacks: {
-    async jwt(token, user) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
         token.instagramId = user.instagramId;
