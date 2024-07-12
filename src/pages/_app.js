@@ -70,7 +70,7 @@ export default function App({ Component, pageProps }) {
               </Link>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-              {/* {myCookie ? (
+              {myCookie ? (
                 <Link
                   href="/auth/signin"
                   class="text-sm font-semibold leading-6 text-gray-900"
@@ -84,7 +84,7 @@ export default function App({ Component, pageProps }) {
                 >
                   Logout <span aria-hidden="true">&rarr;</span>
                 </Link>
-              )} */}
+              )}
               {/* <a
       href="/auth/signup"
       class="text-sm font-semibold leading-6 text-gray-900"
