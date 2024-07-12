@@ -32,10 +32,14 @@ const header = () => {
                 </svg>
               </button>
               <Link href="/dashboard/" className="flex ms-2 md:me-24">
-                <img
-                  src="https://flowbite.com/docs/images/logo.svg"
-                  className="h-8 me-3"
-                  alt="FlowBite Logo"
+                <Image
+                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                  alt=""
+                  title=""
+                  width="100%"
+                  height="100%"
+                  layout="responsive"
+                  objectFit="contain"
                 />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   Instagram Analytics
@@ -52,10 +56,14 @@ const header = () => {
                     data-dropdown-toggle="dropdown-user"
                   >
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="w-8 h-8 rounded-full"
+                    <Image
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt="user photo"
+                      alt=""
+                      title=""
+                      width="100%"
+                      height="100%"
+                      layout="responsive"
+                      objectFit="contain"
                     />
                   </button>
                 </div>

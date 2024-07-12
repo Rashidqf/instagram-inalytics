@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -90,14 +91,18 @@ const Main = () => {
             <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
               <div className="border-b px-4 pb-6">
                 <div className="text-center my-4">
-                  <img
-                    className="h-32 w-32 rounded-full border-4 border-white dark:border-gray-800 mx-auto my-4"
+                  <Image
                     src={
                       data.businessDetails.business_discovery
                         .profile_picture_url ||
                       "https://randomuser.me/api/portraits/women/21.jpg"
                     }
                     alt=""
+                    title=""
+                    width="100%"
+                    height="100%"
+                    layout="responsive"
+                    objectFit="contain"
                   />
                   <div className="py-2">
                     <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">
@@ -153,17 +158,25 @@ const Main = () => {
                       {post.caption}
                     </p>
                   </div>
-                  <img
-                    className="w-full cursor-pointer"
+                  <Image
                     src={post.media_url}
                     alt=""
+                    title=""
+                    width="100%"
+                    height="100%"
+                    layout="responsive"
+                    objectFit="contain"
                   />
                   <div className="flex p-4 justify-between">
                     <div className="flex items-center space-x-2">
-                      <img
-                        className="w-10 rounded-full"
+                      <Image
                         src={post.media_url}
-                        alt="sara"
+                        alt=""
+                        title=""
+                        width="100%"
+                        height="100%"
+                        layout="responsive"
+                        objectFit="contain"
                       />
                       <h2 className="text-gray-800 font-bold cursor-pointer">
                         {post.username}

@@ -7,6 +7,7 @@ import Link from "next/link";
 import Mainheader from "@/customComponent/Mainheader";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import Image from "next/image";
 
 export default function App({ Component, pageProps }) {
   const [myCookie, setmyCookie] = useState();
@@ -31,10 +32,14 @@ export default function App({ Component, pageProps }) {
             <div class="flex lg:flex-1">
               <Link href="/" class="-m-1.5 p-1.5">
                 <span class="sr-only">Your Company</span>
-                <img
-                  class="h-8 w-auto"
+                <Image
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                   alt=""
+                  title=""
+                  width="100%"
+                  height="100%"
+                  layout="responsive"
+                  objectFit="contain"
                 />
               </Link>
             </div>

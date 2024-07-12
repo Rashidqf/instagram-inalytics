@@ -1,6 +1,7 @@
 // pages/auth/signup.js
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ export default function Signup() {
 
   return (
     <>
-    {/* <form onSubmit={handleSignup}>
+      {/* <form onSubmit={handleSignup}>
       <h1>Sign Up</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <input
@@ -52,12 +53,16 @@ export default function Signup() {
       />
       <button type="submit">Sign Up</button>
     </form> */}
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
+          <Image
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
+            alt=""
+            title=""
+            width="100%"
+            height="100%"
+            layout="responsive"
+            objectFit="contain"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
             Sign Up to your account
@@ -138,7 +143,6 @@ export default function Signup() {
                 />
               </div>
             </div>
-
 
             <div>
               <button
