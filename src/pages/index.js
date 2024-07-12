@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import Cookies from "js-cookie";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -14,6 +15,9 @@ export default function Home() {
   const [error, setError] = useState(null);
 
   console.log("session", session);
+  const token = Cookies.get("__stripe_mid");
+
+  console.log("cookies", token);
 
   const fetchInstagramData = async () => {
     setLoading(true);

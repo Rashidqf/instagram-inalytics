@@ -2,6 +2,7 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
+import jwt from "jsonwebtoken";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -31,20 +32,28 @@ export default async function handler(req, res) {
 
     const { access_token, user_id } = response.data;
 
+    console.log(access_token, user_id);
+
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
       { accessToken: access_token },
       { new: true, upsert: true }
     );
+    console.log(user);
+
+    // Create JWT token
+    const token = jwt.sign({ userId: user_id }, "your_secret_key", {
+      expiresIn: "30d",
+    });
 
     res.setHeader(
       "Set-Cookie",
-      `accessToken=${access_token}; Max-Age=${
+      `accessToken=${token}; Max-Age=${
         30 * 24 * 60 * 60
       }; Path=/; HttpOnly; Secure; SameSite=Strict`
     );
 
-    return res.status(200).json({ success: true, access_token }); // Add access_token to the response
+    return res.status(200).json({ success: true, access_token: token });
   } catch (error) {
     console.error(
       "Error fetching access token:",

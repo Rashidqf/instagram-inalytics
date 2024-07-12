@@ -16,6 +16,8 @@
     "@stripe/stripe-js": "^3.5.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
