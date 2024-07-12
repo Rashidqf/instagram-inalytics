@@ -1,4 +1,6 @@
-"useClient";
+// pages/auth/signin.js
+"use client";
+
 import { signIn, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -15,8 +17,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (status === "authenticated") {
-      console.log(status);
-      router.push("/admin"); // Redirect to admin page if authenticated
+      router.push("/admin");
     }
   }, [status, router]);
 
@@ -42,7 +43,7 @@ export default function SignIn() {
       );
 
       if (response.data.success) {
-        router.push("/admin"); // Redirect to admin page on success
+        router.push("/admin");
       } else {
         setError("Failed to authenticate with Instagram");
       }
