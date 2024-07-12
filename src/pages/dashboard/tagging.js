@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "./layout";
 
-const tagging = () => {
+const Tagging = () => {
   const [loading, setloading] = useState(false);
   const [data, setdata] = useState();
   const fetchdata = async () => {
@@ -368,4 +368,4 @@ const tagging = () => {
   );
 };
 
-export default tagging;
+export default Tagging;
