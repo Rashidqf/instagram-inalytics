@@ -44,10 +44,14 @@ export default async function handler(req, res) {
 
     console.log("Long-lived access token:", long_lived_access_token);
 
+    const updateData = long_lived_access_token
+      ? { accessToken: long_lived_access_token }
+      : { accessToken: access_token };
+
     // Step 3: Save long-lived access token to the database
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
-      { accessToken: long_lived_access_token },
+      updateData,
       { new: true, upsert: true }
     );
 
