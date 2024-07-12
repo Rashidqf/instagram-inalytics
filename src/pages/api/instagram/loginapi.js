@@ -48,11 +48,6 @@ export default async function handler(req, res) {
       ? { accessToken: long_lived_access_token }
       : { accessToken: access_token };
 
-      const profile = await axios.get(
-        `https://graph.facebook.com/v20.0/${user_id}?fields=id,name,picture&access_token=${access_token}`
-      );
-
-      console.log("profile", profile.data);
 
     // Step 3: Save long-lived access token to the database
     const user = await User.findOneAndUpdate(
