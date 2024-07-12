@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
@@ -13,7 +12,6 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const cookies = new Cookies();
 
   const fetchInstagramData = async () => {
     setLoading(true);
@@ -31,19 +29,32 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    const accessToken = cookies.get("accessToken");
-    console.log("Access Token", accessToken);
+  // const signin = async () => {
+  //   const response = axios.get("https://api.instagram.com/oauth/authorize", {
+  //     client_id: "1175082610605703",
+  //     clientId: "1175082610605703",
+  //     clientSecret: "9aa6ff4793844085505fc4338b09c7f2",
+  //     redirect_uri: "9aa6ff4793844085505fc4338b09c7f2",
+  //     response_type: "code",
+  //     scope: "user_profile,user_media",
+  //   });
+  //   console.log(response);
+  // };
 
-    if (!accessToken) {
-      router.push("/auth/signin");
-    } else {
-      fetchInstagramData();
-    }
-  }, []);
+  const signin = () => {
+    const clientId = "1175082610605703";
+    const redirectUri = "https://plugged.app/auth/signin";
+    const responseType = "code";
+    const scope = "user_profile,user_media";
+
+    const url = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+
+    window.location.href = url;
+  };
 
   return (
     <>
+      <button onClick={signin}>Login with instagram</button>
       <h1>Rashid</h1>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
