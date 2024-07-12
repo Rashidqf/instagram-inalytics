@@ -2,6 +2,7 @@
 import User from "@/model/instagramModel";
 import dbConnect from "@/utils/dbconnect";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -32,6 +33,9 @@ export default async function handler(req, res) {
     const { access_token, user_id } = response.data;
 
     console.log(access_token, user_id);
+
+    const token = Cookies.set("testing", "Hello World");
+    console.log(token);
 
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
