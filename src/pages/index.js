@@ -16,8 +16,12 @@ export default function Home() {
 
   console.log("session", session);
   const token = Cookies.get("accessToken");
+  const token1 = Cookies.get("__stripe_mid");
+  const token2 = Cookies.get("next-auth.callback-url");
+  const token3 = Cookies.get("next-auth.csrf-token");
+  const token4 = Cookies.get("next-auth.state");
 
-  console.log("cookies", token);
+  console.log("cookies", token, token1, token2, token3, token4);
 
   const fetchInstagramData = async () => {
     setLoading(true);
