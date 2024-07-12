@@ -1,61 +1,46 @@
 import NextAuth from "next-auth";
+import InstagramProvider from "next-auth/providers/instagram";
 import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+import User from "@/model/instagramModel";
+import dbConnect from "@/utils/dbconnect";
+import clientPromise from "@/utils/mongodb";
 
-export const authOptions = {
+export const authOption = {
   providers: [
-    CredentialsProvider({
-      id: "instagram",
-      name: "Instagram",
-      credentials: {
-        code: { label: "Code", type: "text" },
-      },
-      authorize: async (credentials) => {
-        try {
-          const response = await axios.post(
-            `https://plugged.app/api/auth/instagram`,
-            {
-              code: credentials.code,
-            }
-          );
-
-          console.log(response.data);
-          const { access_token, user_id } = response.data;
-          return {
-            id: user_id,
-            name: profile.username,
-            email: null, // Instagram doesn't provide email
-            image: profile.profile_picture,
-            accessToken: access_token,
-          };
-        } catch (error) {
-          console.error(
-            "Error authorizing user:",
-            error.response ? error.response.data : error.message
-          );
-          return null;
-        }
+    InstagramProvider({
+      clientId: "1175082610605703",
+      clientSecret: "9aa6ff4793844085505fc4338b09c7f2",
+      authorization: {
+        params: {
+          redirect_uri: "https://plugged.app/auth/signin",
+          scopes: "user_profile user_media",
+          authorizationUrl: "https://www.instagram.com/oauth/authorize",
+          tokenUrl: "https://api.instagram.com/oauth/access_token",
+        },
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
   callbacks: {
-    async session({ session, token }) {
-      session.user.id = token.id;
-      session.accessToken = token.accessToken;
-      return session;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.accessToken = user.accessToken;
+    async jwt({ token, account }) {
+      if (account?.provider === "instagram") {
+        token.instagramAccessToken = account.access_token;
+        token.instagramRefreshToken = account.refresh_token;
+        token.instagramAccessTokenExpires =
+          Date.now() + account.expires_in * 1000;
       }
       return token;
     },
+    async session({ session, token }) {
+      session.user = token.user;
+      session.instagramAccessToken = token.instagramAccessToken;
+      session.instagramRefreshToken = token.instagramRefreshToken;
+      session.instagramAccessTokenExpires = token.instagramAccessTokenExpires;
+      return session;
+    },
   },
+  adapter: MongoDBAdapter(clientPromise),
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
-export default NextAuth(authOptions);
+export default NextAuth(authOption);
