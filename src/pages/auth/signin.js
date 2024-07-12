@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { ColorRing } from "react-loader-spinner";
 
 export default function SignIn() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function SignIn() {
       );
 
       if (response.data.success) {
-        router.push("/admin");
+        router.push("/dashboard");
       } else {
         setError("Failed to authenticate with Instagram");
       }
@@ -68,8 +69,7 @@ export default function SignIn() {
         >
           Log in with Instagram
         </button>
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        {loading && <ColorRing />}
       </div>
     </div>
   );
