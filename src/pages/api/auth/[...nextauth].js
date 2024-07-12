@@ -1,16 +1,20 @@
-// pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
-import Providers from "next-auth/providers";
+import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 
 export const authOptions = {
   providers: [
-    Providers.Credentials({
+    CredentialsProvider({
       id: "instagram",
       name: "Instagram",
+      credentials: {
+        code: { label: "Code", type: "text" },
+      },
       authorize: async (credentials) => {
         try {
-          const response = await axios.post("/api/auth/instagram", { code: credentials.code });
+          const response = await axios.post(`/api/auth/instagram`, {
+            code: credentials.code,
+          });
           const { access_token, profile } = response.data;
           return {
             id: profile.id,
@@ -20,7 +24,10 @@ export const authOptions = {
             accessToken: access_token,
           };
         } catch (error) {
-          console.error("Error authorizing user:", error.response ? error.response.data : error.message);
+          console.error(
+            "Error authorizing user:",
+            error.response ? error.response.data : error.message
+          );
           return null;
         }
       },
