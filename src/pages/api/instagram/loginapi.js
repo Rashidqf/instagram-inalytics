@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       "Set-Cookie",
       `accessToken=${token}; Max-Age=${
         30 * 24 * 60 * 60
-      }; Path=/; HttpOnly; Secure; SameSite=Strict`
+      }; Path=/; Secure; SameSite=Strict`
     );
 
     return res.status(200).json({ success: true, access_token: token });
