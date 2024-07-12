@@ -18,9 +18,11 @@ export const authOptions = {
               code: credentials.code,
             }
           );
-          const { access_token, profile } = response.data;
+
+          console.log(response.data);
+          const { access_token, user_id } = response.data;
           return {
-            id: profile.id,
+            id: user_id,
             name: profile.username,
             email: null, // Instagram doesn't provide email
             image: profile.profile_picture,

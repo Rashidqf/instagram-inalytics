@@ -31,11 +31,14 @@ export default async function handler(req, res) {
 
     const { access_token, user_id } = response.data;
 
+    console.log(access_token, user_id);
+
     const user = await User.findOneAndUpdate(
       { instagramId: user_id },
       { accessToken: access_token },
       { new: true, upsert: true }
     );
+    console.log(user);
 
     res.setHeader(
       "Set-Cookie",
