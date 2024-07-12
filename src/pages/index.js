@@ -17,7 +17,7 @@ export default function Home() {
   console.log("session", session);
   const token = Cookies.get("accessToken");
 
-  console.log("cookies", accessToken);
+  console.log("cookies", token);
 
   const fetchInstagramData = async () => {
     setLoading(true);
