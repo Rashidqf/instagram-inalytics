@@ -12,9 +12,12 @@ export const authOptions = {
       },
       authorize: async (credentials) => {
         try {
-          const response = await axios.post(`/api/auth/instagram`, {
-            code: credentials.code,
-          });
+          const response = await axios.post(
+            `https://plugged.app/api/auth/instagram`,
+            {
+              code: credentials.code,
+            }
+          );
           const { access_token, profile } = response.data;
           return {
             id: profile.id,
