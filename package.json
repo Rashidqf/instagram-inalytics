@@ -25,6 +25,7 @@
     "next-cookie": "^2.8.0",
     "nextjs-toploader": "^1.6.12",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-loader-spinner": "^6.1.6",
     "reactjs-social-login": "^2.6.3",
