@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default Header = () => {
   return (
     <header class="bg-white">
