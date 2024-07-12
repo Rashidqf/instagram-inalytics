@@ -13,6 +13,11 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     setmyCookie(Cookies.get("accessToken"));
   }, []);
+
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    setmyCookie(null);
+  };
   return (
     <>
       <NextTopLoader color="#FF0000" showSpinner={false} />
@@ -70,7 +75,7 @@ export default function App({ Component, pageProps }) {
               </Link>
             </div>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-              {myCookie ? (
+              {!myCookie ? (
                 <Link
                   href="/auth/signin"
                   class="text-sm font-semibold leading-6 text-gray-900"
@@ -78,12 +83,12 @@ export default function App({ Component, pageProps }) {
                   Log in <span aria-hidden="true">&rarr;</span>
                 </Link>
               ) : (
-                <Link
-                  href="/auth/signin"
+                <button
+                  onClick={handleLogout}
                   class="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Logout <span aria-hidden="true">&rarr;</span>
-                </Link>
+                </button>
               )}
               {/* <a
       href="/auth/signup"
