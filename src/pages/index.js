@@ -9,24 +9,10 @@ import { useSession } from "next-auth/react";
 import Cookies from "js-cookie";
 
 export default function Home() {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   useEffect(() => {
-    // Log cookies to the console
-    console.log('Cookies:', document.cookie);
-    console.log('Access Token:', Cookies.get('accessToken'));
+    console.log("Cookies:", document.cookie);
+    console.log("Access Token:", Cookies.get("accessToken"));
   }, []);
-
-  // console.log("session", session);
-  // const token = Cookies.get("accessToken");
-  // const token1 = Cookies.get("__stripe_mid");
-  // const token2 = Cookies.get("next-auth.callback-url");
-  // const token3 = Cookies.get("next-auth.csrf-token");
-  // const token4 = Cookies.get("next-auth.state");
 
   const signin = () => {
     const clientId = "1175082610605703";

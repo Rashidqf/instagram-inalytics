@@ -1,4 +1,14 @@
-export default Header = () => {
+"use client";
+
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+
+const Mainheader = () => {
+  const [myCookie, setmyCookie] = useState();
+  useEffect(() => {
+    setmyCookie(Cookies.get("accessToken"));
+  }, []);
   return (
     <header class="bg-white">
       <nav
@@ -52,18 +62,27 @@ export default Header = () => {
           </Link>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link
-            href="/auth/signin"
-            class="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
+          {myCookie ? (
+            <Link
+              href="/auth/signin"
+              class="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Log in <span aria-hidden="true">&rarr;</span>
+            </Link>
+          ) : (
+            <Link
+              href="/auth/signin"
+              class="text-sm font-semibold leading-6 text-gray-900"
+            >
+              Logout <span aria-hidden="true">&rarr;</span>
+            </Link>
+          )}
           {/* <a
-                href="/auth/signup"
-                class="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Sign up <span aria-hidden="true">&rarr;</span>
-              </a> */}
+      href="/auth/signup"
+      class="text-sm font-semibold leading-6 text-gray-900"
+    >
+      Sign up <span aria-hidden="true">&rarr;</span>
+    </a> */}
         </div>
       </nav>
       <div class="lg:hidden" role="dialog" aria-modal="true">
@@ -198,3 +217,5 @@ export default Header = () => {
     </header>
   );
 };
+
+export default Mainheader;
