@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 const APP_SECRET = process.env.INSTAGRAM_APP_SECRET;
 
-export default async (req, res) => {
+const webhooksHandler = async (req, res) => {
   if (req.method === "GET") {
     // Verification challenge request
     const mode = req.query["hub.mode"];
@@ -42,3 +42,5 @@ export default async (req, res) => {
     res.status(405).end();
   }
 };
+
+export default webhooksHandler;

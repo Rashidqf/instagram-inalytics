@@ -24,33 +24,33 @@ export default function App({ Component, pageProps }) {
       <NextTopLoader color="#FF0000" showSpinner={false} />
       <SessionProvider session={pageProps.session}>
         {/* <Mainheader /> */}
-        <header class="bg-white">
+        <header className="bg-white">
           <nav
-            class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+            className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
             aria-label="Global"
           >
-            <div class="flex lg:flex-1">
-              <Link href="/" class="-m-1.5 p-1.5">
-                <span class="sr-only">Your Company</span>
+            <div className="flex lg:flex-1">
+              <Link href="/" className="-m-1.5 p-1.5">
+                <span className="sr-only">Your Company</span>
                 <Image
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                   alt=""
                   title=""
-                  width="100%"
-                  height="100%"
+                  width={100}
+                  height={100}
                   layout="responsive"
                   objectFit="contain"
                 />
               </Link>
             </div>
-            <div class="flex lg:hidden">
+            <div className="flex lg:hidden">
               <button
                 type="button"
-                class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
               >
-                <span class="sr-only">Open main menu</span>
+                <span className="sr-only">Open main menu</span>
                 <svg
-                  class="h-6 w-6"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke-width="1.5"
@@ -65,39 +65,39 @@ export default function App({ Component, pageProps }) {
                 </svg>
               </button>
             </div>
-            <div class="hidden lg:flex lg:gap-x-12">
+            <div className="hidden lg:flex lg:gap-x-12">
               <Link
                 href="/user"
-                class="text-sm font-semibold leading-6 text-gray-900"
+                className="text-sm font-semibold leading-6 text-gray-900"
               >
                 User Page
               </Link>
               <Link
                 href="/checkout"
-                class="text-sm font-semibold leading-6 text-gray-900"
+                className="text-sm font-semibold leading-6 text-gray-900"
               >
                 Subscritpion
               </Link>
             </div>
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               {!myCookie ? (
                 <Link
                   href="/auth/signin"
-                  class="text-sm font-semibold leading-6 text-gray-900"
+                  className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Log in <span aria-hidden="true">&rarr;</span>
                 </Link>
               ) : (
                 <button
                   onClick={handleLogout}
-                  class="text-sm font-semibold leading-6 text-gray-900"
+                  className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Logout <span aria-hidden="true">&rarr;</span>
                 </button>
               )}
               {/* <a
       href="/auth/signup"
-      class="text-sm font-semibold leading-6 text-gray-900"
+      className="text-sm font-semibold leading-6 text-gray-900"
     >
       Sign up <span aria-hidden="true">&rarr;</span>
     </a> */}
