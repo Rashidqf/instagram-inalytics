@@ -1,4 +1,3 @@
-// Function to get cookie value by name
 export default function getCookie(cookieName) {
   const name = cookieName + "=";
   const decodedCookie = decodeURIComponent(document.cookie);

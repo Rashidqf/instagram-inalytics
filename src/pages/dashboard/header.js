@@ -11,7 +11,6 @@ const Header = () => {
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
     const accessTokens = getCookie(accessToken);
-    console.log(accessTokens);
     if (!accessToken) {
       router.push("/");
     }
