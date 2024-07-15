@@ -1,8 +1,21 @@
-import Link from 'next/link'
-import React from 'react'
+"use client";
+import Link from "next/link";
+import React, { useEffect } from "react";
 import Image from "next/image";
-
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import getCookie from "@/utils/getCookie";
 const header = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const accessToken = Cookies.get("accessToken");
+    const accessTokens = getCookie(accessToken);
+    console.log(accessTokens);
+    if (!accessToken) {
+      router.push("/");
+    }
+  }, [router]);
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -36,10 +49,8 @@ const header = () => {
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                   alt=""
                   title=""
-                  width="100%"
-                  height="100%"
-                  layout="responsive"
-                  objectFit="contain"
+                  width={50}
+                  height={50}
                 />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                   Instagram Analytics
@@ -60,10 +71,8 @@ const header = () => {
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                       alt=""
                       title=""
-                      width="100%"
-                      height="100%"
-                      layout="responsive"
-                      objectFit="contain"
+                      width={50}
+                      height={50}
                     />
                   </button>
                 </div>
@@ -133,4 +142,4 @@ const header = () => {
   );
 };
 
-export default header
+export default header;

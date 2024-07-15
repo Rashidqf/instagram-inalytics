@@ -36,10 +36,8 @@ export default function App({ Component, pageProps }) {
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                   alt=""
                   title=""
-                  width={100}
-                  height={100}
-                  layout="responsive"
-                  objectFit="contain"
+                  width={50}
+                  height={50}
                 />
               </Link>
             </div>

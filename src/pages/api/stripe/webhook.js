@@ -33,7 +33,6 @@ export default async function handler(req, res) {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    // Handle the event
     switch (event.type) {
       case "checkout.session.completed":
         return handleCheckoutSessionCompleted(event, res);
@@ -62,7 +61,7 @@ async function handleCheckoutSessionCompleted(event, res) {
   console.log("checkout.session.completed:", checkoutSession);
 
   try {
-    const userId = "6694f9ac861846fd20bfe307"; // Replace with actual userId
+    const userId = "6694f9ac861846fd20bfe307";
     const user = await User.findByIdAndUpdate(
       userId,
       {
@@ -99,9 +98,6 @@ function handleAsyncPaymentFailed(event, res) {
   const asyncPaymentFailed = event.data.object;
   console.log("checkout.session.async_payment_failed:", asyncPaymentFailed);
 
-  // Handle async payment failed event
-  // Example: Update database or send notification
-
   res.status(200).json({ received: true });
 }
 
@@ -112,18 +108,12 @@ function handleAsyncPaymentSucceeded(event, res) {
     asyncPaymentSucceeded
   );
 
-  // Handle async payment succeeded event
-  // Example: Update database or send notification
-
   res.status(200).json({ received: true });
 }
 
 function handleCheckoutSessionExpired(event, res) {
   const checkoutSessionExpired = event.data.object;
   console.log("checkout.session.expired:", checkoutSessionExpired);
-
-  // Handle checkout session expired event
-  // Example: Update database or send notification
 
   res.status(200).json({ received: true });
 }
@@ -144,9 +134,6 @@ function handlePaymentIntentAmountUpdated(event, res) {
 function handleInvoicePaymentSucceeded(event, res) {
   const invoicePaymentSucceeded = event.data.object;
   console.log("invoice.payment_succeeded:", invoicePaymentSucceeded);
-
-  // Handle invoice payment succeeded event
-  // Example: Update database or send notification
 
   res.status(200).json({ received: true });
 }

@@ -58,10 +58,13 @@ export default async function handler(req, res) {
 
     console.log("Updated user:", user);
 
-    // Step 4: Create JWT token
-    const token = jwt.sign({ userId: user_id }, "your_secret_key", {
-      expiresIn: "30d",
-    });
+    const token = jwt.sign(
+      { userId: user_id, id: user.id },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "30d",
+      }
+    );
 
     res.setHeader(
       "Set-Cookie",
