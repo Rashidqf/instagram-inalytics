@@ -13,7 +13,7 @@ export const authOption = {
       clientSecret: "9aa6ff4793844085505fc4338b09c7f2",
       authorization: {
         params: {
-          redirect_uri: "https://plugged.app/auth/signin",
+          redirect_uri: "https://followmapper.com/auth/signin",
           scopes: "user_profile user_media",
           authorizationUrl: "https://www.instagram.com/oauth/authorize",
           tokenUrl: "https://api.instagram.com/oauth/access_token",

@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         client_id: "1175082610605703",
         client_secret: "9aa6ff4793844085505fc4338b09c7f2",
         grant_type: "authorization_code",
-        redirect_uri: "https://plugged.app/auth/signin",
+        redirect_uri: "https://followmapper.com/auth/signin",
         code: code,
       }).toString(),
       {

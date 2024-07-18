@@ -16,7 +16,7 @@ export default function Home() {
 
   const signin = () => {
     const clientId = "1175082610605703";
-    const redirectUri = "https://plugged.app/auth/signin";
+    const redirectUri = "https://followmapper.com/auth/signin";
     const responseType = "code";
     const scope = "user_profile,user_media";
 
