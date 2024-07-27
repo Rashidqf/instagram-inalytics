@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await axios.get(
-      `https://graph.facebook.com/${BUISENESSID}?fields=business_discovery.username(${username}){followers_count,media_count,id,website,biography,profile_picture_url}&access_token=${ACCESSTOKEN}`
+      `https://graph.facebook.com/${BUISENESSID}?fields=business_discovery.username(${username}){followers_count,media_count,id,website,biography,profile_picture_url,follows_count,name,username}&access_token=${ACCESSTOKEN}`
     );
 
     const userid = response.data.id;

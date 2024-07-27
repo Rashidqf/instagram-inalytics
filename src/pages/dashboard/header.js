@@ -1,25 +1,56 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import getCookie from "@/utils/getCookie";
+
 const Header = () => {
   const router = useRouter();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  // Check if the user is authenticated
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
-    const accessTokens = getCookie(accessToken);
     if (!accessToken) {
-      router.push("/");
+      // router.push("/auth/signin");
     }
   }, [router]);
+
+  useEffect(() => {
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
+  // Sign out handler
+  const handleSignOut = () => {
+    Cookies.remove("accessToken"); // Clear the accessToken cookie
+    router.push("/auth/signin"); // Redirect to sign-in page
+  };
 
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div className="px-3  py-6 lg:px-5 lg:pl-3">
+        <div className="px-3 py-6 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
               <button
@@ -53,31 +84,33 @@ const Header = () => {
                   height={50}
                 />
                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Instagram Analytics
+                  Followmapper
                 </span>
               </Link>
             </div>
-            <div className="flex items-center">
-              <div className="flex items-center ms-3">
-                <div>
-                  <button
-                    type="button"
-                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                    aria-expanded="false"
-                    data-dropdown-toggle="dropdown-user"
-                  >
-                    <span className="sr-only">Open user menu</span>
-                    <Image
-                      src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                      alt=""
-                      title=""
-                      width={50}
-                      height={50}
-                    />
-                  </button>
-                </div>
+            <div className="relative flex items-center ms-3">
+              <div>
+                <button
+                  type="button"
+                  onClick={toggleDropdown}
+                  className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                  aria-expanded={dropdownOpen}
+                >
+                  <span className="sr-only">Open user menu</span>
+                  <Image
+                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                    alt=""
+                    title=""
+                    width={50}
+                    height={50}
+                    className="rounded-full"
+                  />
+                </button>
+              </div>
+              {dropdownOpen && (
                 <div
-                  className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                  ref={dropdownRef}
+                  className="absolute right-0 z-50 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600 top-20"
                   id="dropdown-user"
                 >
                   <div className="px-4 py-3" role="none">
@@ -96,44 +129,36 @@ const Header = () => {
                   </div>
                   <ul className="py-1" role="none">
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        href="/dashboard"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
                         Dashboard
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
+                      <Link
+                        href="/dashboard/profile"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
-                        Settings
-                      </a>
+                        Profile
+                      </Link>
                     </li>
                     <li>
-                      <a
+                      <Link
                         href="#"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                        role="menuitem"
-                      >
-                        Earnings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
+                        onClick={handleSignOut} // Attach sign out handler
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                         role="menuitem"
                       >
                         Sign out
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

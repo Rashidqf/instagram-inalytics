@@ -9,6 +9,19 @@ const Main = () => {
   const [post, setPost] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const searchOrCreateUser = async (id, data) => {
+    const response = await fetch("/api/instagram/searchedUserData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id, data }),
+    });
+
+    const result = await response.json();
+    console.log(result);
+  };
+
   const fetchData = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -26,6 +39,7 @@ const Main = () => {
       setData(data);
       setPost(data.mediaDetails.business_discovery.media.data);
       console.log(data);
+      searchOrCreateUser(inputValue, data.businessDetails.business_discovery);
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
@@ -91,7 +105,14 @@ const Main = () => {
             <div className="max-w-sm mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
               <div className="border-b px-4 pb-6">
                 <div className="text-center my-4">
-                  <Image
+                  <img
+                    src={
+                      data.businessDetails.business_discovery
+                        .profile_picture_url ||
+                      "https://randomuser.me/api/portraits/women/21.jpg"
+                    }
+                  />
+                  {/* <Image
                     src={
                       data.businessDetails.business_discovery
                         .profile_picture_url ||
@@ -103,7 +124,7 @@ const Main = () => {
                     height="100%"
                     layout="responsive"
                     objectFit="contain"
-                  />
+                  /> */}
                   <div className="py-2">
                     <h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">
                       {post.username}
@@ -158,7 +179,8 @@ const Main = () => {
                       {post.caption}
                     </p>
                   </div>
-                  <Image
+                  <img src={post.media_url} />
+                  {/* <Image
                     src={post.media_url}
                     alt=""
                     title=""
@@ -166,10 +188,10 @@ const Main = () => {
                     height="100%"
                     layout="responsive"
                     objectFit="contain"
-                  />
+                  /> */}
                   <div className="flex p-4 justify-between">
                     <div className="flex items-center space-x-2">
-                      <Image
+                      {/* <Image
                         src={post.media_url}
                         alt=""
                         title=""
@@ -177,7 +199,7 @@ const Main = () => {
                         height="100%"
                         layout="responsive"
                         objectFit="contain"
-                      />
+                      /> */}
                       <h2 className="text-gray-800 font-bold cursor-pointer">
                         {post.username}
                       </h2>

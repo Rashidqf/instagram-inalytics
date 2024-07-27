@@ -16,6 +16,7 @@ const nextConfig = {
         pathname: "/docs/images/people/**",
       },
     ],
+    domains: ['scontent.cdninstagram.com']
   },
 };
 
